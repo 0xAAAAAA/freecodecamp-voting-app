@@ -1,11 +1,34 @@
 <template>
 	<div id="app">
-		<router-view class="flex"></router-view>
+		<navbar-component></navbar-component>
+		<router-view @refreshfeed="refreshfeed()" class="flex"></router-view>
 	</div>
 </template>
 
 <script>
+import NavbarComponent from "./components/NavbarComponent"
+import store from "./vuex/store"
+import axios from "axios"
+
+
 export default {
+	components: {
+		NavbarComponent
+	},
+	created () {
+		axios.get("/auth").then(({data}) => {
+			if(data) {
+				this.$store.commit('login');
+				this.$store.commit('user', data)
+			}
+		});
+	},
+	methods: {
+		refreshfeed () {
+			this.$emit("refreshfeedchild");
+		}
+	},
+	store: store
 }
 </script>
 
