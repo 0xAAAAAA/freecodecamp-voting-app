@@ -31,7 +31,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .app {
 	width: 100%;
 	height: 100%;
@@ -41,5 +41,9 @@ export default {
 
 .container {
 	flex: 1;
+}
+
+.list-group {
+	margin-top: 20px;
 }
 </style>

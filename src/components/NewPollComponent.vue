@@ -79,14 +79,13 @@ export default {
 				id: id.alphanum({prefix: "opt", length: 50, parts: 5}),
 				votes: 0
 			});
-			console.log(this.options);
 		}
 	}
 }
 </script>
 
 
-<style>
+<style scoped>
 .app {
 	width: 100%;
 	height: 100%;

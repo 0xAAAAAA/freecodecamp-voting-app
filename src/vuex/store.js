@@ -14,6 +14,10 @@ var mutations = {
 	login (state) {
 		state.login = true;
 	},
+	logout (state) {
+		state.login = false;
+		state.user = {};
+	},
 	user (state, data) {
 		state.user = data;
 	}

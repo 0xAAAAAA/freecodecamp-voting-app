@@ -44,11 +44,11 @@ passport.use(new Strategy({
 	return cb(null, profile)
 }));
 
-passport.serializeUser(function(user, cb) {
+passport.serializeUser((user, cb) => {
  	cb(null, user);
 });
 
-passport.deserializeUser(function(obj, cb) {
+passport.deserializeUser((obj, cb) => {
  	cb(null, obj);
 });
 
@@ -148,6 +148,44 @@ app.post("/newpoll", (req, res) => {
 		});
 	} else {
 		res.sendStatus(401); // Unauth
+	}
+});
+
+app.get("/logout", (req, res) => {
+	if(req.isAuthenticated()) {
+		req.logout();
+	}
+	res.redirect("/");
+});
+
+
+app.get("/poll/:id", (req, res) => {
+	$polls.findOne({
+		id: req.params.id
+	}, (err, docs) => {
+		if(err) throw err;
+		if(docs) {
+			res.json(docs);
+		} else {
+			res.sendStatus(204); // No content
+		}
+ 	})
+})
+
+app.get("/vote/:pid/:optid", (req, res) => {
+	if(req.isAuthenticated()) {
+		$polls.update({
+			id: req.params.pid,
+			"options.id": req.params.optid
+		}, { $inc: {
+				"options.$.votes": 1 
+			}
+		}, (err, docs) => {
+			if (err) throw err;
+			res.redirect("/");
+		});
+	} else {
+		res.sendStatus(401);
 	}
 });
 
